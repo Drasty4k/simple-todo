@@ -20,6 +20,7 @@ type Props = {
     subtaskIndex: number
   ) => void;
   updateTodo: (updatedTodo: Todo) => void;
+  deleteTodo: (id: string) => void;
 };
 
 const TodoCard: React.FC<Props> = ({
@@ -35,6 +36,7 @@ const TodoCard: React.FC<Props> = ({
   toggleCompletedTodo,
   toggleCompletedSubTask,
   updateTodo,
+  deleteTodo
 }) => {
   const [showEditModal, setShowEditModal] = useState<boolean>(false);
   const toggleModal = () => {
@@ -48,6 +50,7 @@ const TodoCard: React.FC<Props> = ({
         <div className={styles.headerButtons}>
           <button onClick={toggleModal}>Edit</button>
           <button onClick={() => toggleCompletedTodo(todoIndex, allTodos)}>Done</button>
+          <button onClick={() => deleteTodo(id)}>Delete</button>
         </div>
         <h2 className={styles.title}>{title}</h2>
         <h4 className={styles.subtitle}>{subtitle}</h4>

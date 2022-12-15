@@ -88,6 +88,11 @@ export default function Home() {
     setTodos(updatedListOfTodos);
   };
 
+  const deleteTodo = (id: string) => {
+    const newTodos = todos.filter((todo) => todo.id !== id);
+    setTodos(newTodos);
+  };
+
   return (
     <div className={styles.container}>
       <button onClick={toggleModal} className={styles.addBtn}>
@@ -114,6 +119,7 @@ export default function Home() {
               toggleCompletedTodo={toggleCompletedTodo}
               updateTodo={() => updateTodo}
               toggleCompletedSubTask={toggleCompletedSubTask}
+              deleteTodo={deleteTodo}
             />
           )
         )}
