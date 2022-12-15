@@ -59,7 +59,16 @@ export default function Home() {
     const newTodos = [...todos];
     newTodos[index].completed = !newTodos[index].completed;
     setTodos(newTodos);
-    console.log(todos);
+  };
+
+  const updateTodo = (updatedTodo: Todo) => {
+    const updatedListOfTodos = todos.map((todo) => {
+      if (todo.id === updatedTodo.id) {
+        todo = updatedTodo;
+      }
+      return todo;
+    });
+    setTodos(updatedListOfTodos);
   };
 
   return (
@@ -84,11 +93,14 @@ export default function Home() {
               subtasks={subtasks}
               completed={completed}
               toggleCompletedTodo={() => toggleCompletedTodo(index, todos)}
+              updateTodo={updateTodo}
             />
           )
         )}
       </ul>
-      {showModal && <AddTodoModal close={toggleModal} setTodos={setTodos} />}
+      {showModal && (
+        <AddTodoModal type="ADD" close={toggleModal} setTodos={setTodos} />
+      )}
     </div>
   );
 }

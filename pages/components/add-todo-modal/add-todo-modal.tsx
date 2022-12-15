@@ -1,26 +1,32 @@
 import { nanoid } from "nanoid";
-import {
-  Dispatch,
-  FormEvent,
-  Ref,
-  SetStateAction,
-  useRef,
-  useState,
-} from "react";
+import { Dispatch, FormEvent, SetStateAction, useState } from "react";
 import { Priority, Subtask, Todo } from "../../index";
 import styles from "./add-todo-modal.module.scss";
 
 type Props = {
   close: () => void;
-  setTodos: Dispatch<SetStateAction<Todo[]>>;
+  setTodos?: Dispatch<SetStateAction<Todo[]>>;
+  updateTodo?: (updatedTodo: Todo) => void;
+  currentTodo?: Todo;
+  type: "ADD" | "EDIT";
 };
 
-const AddTodoModal: React.FC<Props> = ({ close, setTodos }) => {
-  const [priority, setPriority] = useState<Priority>(null);
-  const [title, setTitle] = useState<string>("");
-  const [subtitle, setSubtitle] = useState<string>("");
-  const [notes, setNotes] = useState<string>("");
-  const [subtasks, setSubtasks] = useState<Subtask[]>([]);
+const AddTodoModal: React.FC<Props> = ({
+  type,
+  close,
+  setTodos,
+  currentTodo,
+  updateTodo,
+}) => {
+  const [priority, setPriority] = useState<Priority>(currentTodo?.priority!);
+  const [title, setTitle] = useState<string>("" || currentTodo?.title!);
+  const [subtitle, setSubtitle] = useState<string>(
+    "" || currentTodo?.subtitle!
+  );
+  const [notes, setNotes] = useState<string>("" || currentTodo?.notes!);
+  const [subtasks, setSubtasks] = useState<Subtask[]>(
+    currentTodo?.subtasks! ? currentTodo?.subtasks! : []
+  );
   const [subtaskText, setSubtaskText] = useState<string>("");
 
   const ignoreClick = (event: React.MouseEvent<Element, MouseEvent>) => {
@@ -29,11 +35,16 @@ const AddTodoModal: React.FC<Props> = ({ close, setTodos }) => {
 
   const onSubmit = (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-    createTodo();
+    if (type === "ADD") {
+      createTodo();
+    } else {
+      editTodo();
+    }
     close();
   };
 
   const createTodo = () => {
+    if (!setTodos) return;
     const id = nanoid(10);
     const newTodo: Todo = {
       id,
@@ -42,9 +53,23 @@ const AddTodoModal: React.FC<Props> = ({ close, setTodos }) => {
       notes,
       priority,
       subtasks,
-      completed: false
+      completed: false,
     };
     setTodos((prev) => [newTodo, ...prev]);
+  };
+
+  const editTodo = () => {
+    if (!updateTodo) return;
+    const updatedTodo: Todo = {
+      id: currentTodo?.id!,
+      title,
+      subtitle,
+      notes,
+      priority,
+      subtasks,
+      completed: false,
+    };
+    updateTodo(updatedTodo);
   };
 
   const addSubtask = () => {
@@ -132,7 +157,12 @@ const AddTodoModal: React.FC<Props> = ({ close, setTodos }) => {
           <ul className={styles.subtasksContainer}>
             {subtasks.map((subtask) => (
               <li key={subtask.id}>
-                <p>{subtask.text}</p>
+                <p
+                  contentEditable={type === "EDIT"}
+                  onBlur={(e) => (subtask.text = e.currentTarget.innerText!)}
+                >
+                  {subtask.text}
+                </p>
               </li>
             ))}
           </ul>
@@ -144,7 +174,7 @@ const AddTodoModal: React.FC<Props> = ({ close, setTodos }) => {
               allInputsEmpty() ? { cursor: "not-allowed", opacity: ".6" } : {}
             }
           >
-            Add Todo
+            {type === "ADD" ? "Add Todo" : "Edit Todo"}
           </button>
         </form>
       </div>

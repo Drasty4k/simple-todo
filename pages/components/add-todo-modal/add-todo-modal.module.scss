@@ -122,6 +122,14 @@
       .subtasksContainer {
         list-style-type: none;
         text-align: center;
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+
+        li {
+          background-color: #6d6d6d;
+          border-radius: 20px;
+        }
       }
 
       .addTodoBtn {
