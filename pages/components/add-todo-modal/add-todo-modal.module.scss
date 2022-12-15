@@ -129,6 +129,28 @@
         li {
           background-color: #6d6d6d;
           border-radius: 20px;
+          display: flex;
+          gap: 5px;
+          justify-content: space-between;
+          align-items: center;
+          padding: 5px 10px;
+        }
+
+        button {
+          border: none;
+          outline: none;
+          padding: 5px 10px;
+          border-radius: 20px;
+          max-height: 30px;
+          color: #fff;
+          font-weight: 700;
+          background-color: #be2e2e;
+          transition: 0.2s linear;
+
+          &:hover {
+            transform: scale(1.05);
+            cursor: pointer;
+          }
         }
       }
 

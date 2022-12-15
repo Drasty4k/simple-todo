@@ -76,7 +76,7 @@ const AddTodoModal: React.FC<Props> = ({
     const newSubtask = {
       id: nanoid(10),
       text: subtaskText,
-      completed: false
+      completed: false,
     };
     setSubtasks((prev) => [newSubtask, ...prev]);
     setSubtaskText("");
@@ -84,6 +84,11 @@ const AddTodoModal: React.FC<Props> = ({
 
   const allInputsEmpty = () => {
     return Boolean(!title || !subtitle || !notes || !priority);
+  };
+
+  const deleteSubtask = (id: string) => {
+    const newSubTasks = subtasks.filter((subtask) => subtask.id !== id);
+    setSubtasks(newSubTasks);
   };
 
   return (
@@ -164,6 +169,9 @@ const AddTodoModal: React.FC<Props> = ({
                 >
                   {subtask.text}
                 </p>
+                <button onClick={() => deleteSubtask(subtask.id)}>
+                  Delete
+                </button>
               </li>
             ))}
           </ul>

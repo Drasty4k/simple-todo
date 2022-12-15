@@ -48,7 +48,7 @@ export default function Home() {
         },
         {
           id: "asd8",
-          text: "resolve that bad badddddddddddddddddddddddddddug",
+          text: "resolve that bad baddddddddddug",
           completed: false,
         },
       ],
@@ -117,7 +117,7 @@ export default function Home() {
               todoIndex={index}
               allTodos={todos}
               toggleCompletedTodo={toggleCompletedTodo}
-              updateTodo={() => updateTodo}
+              updateTodo={updateTodo}
               toggleCompletedSubTask={toggleCompletedSubTask}
               deleteTodo={deleteTodo}
             />
