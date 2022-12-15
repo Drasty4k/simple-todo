@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import AddTodoModal from "./components/add-todo-modal/add-todo-modal";
 import TodoCard from "./components/todo/todo-card";
 import styles from "./index.module.scss";
@@ -23,38 +23,17 @@ export type Subtask = {
 
 export default function Home() {
   const [showModal, setShowModal] = useState(false);
-  const [todos, setTodos] = useState<Todo[]>([
-    {
-      id: "asd1",
-      title: "Work",
-      subtitle: "do this task",
-      notes: "resolve that bug",
-      priority: "MEDIUM",
-      subtasks: [
-        {
-          id: "asd3",
-          text: "resolve that bad basdddddddug",
-          completed: false,
-        },
-        {
-          id: "asd5",
-          text: "resolve that bad bddddug",
-          completed: false,
-        },
-        {
-          id: "asd6",
-          text: "resolve that bad basddddddddddddug",
-          completed: false,
-        },
-        {
-          id: "asd8",
-          text: "resolve that bad baddddddddddug",
-          completed: false,
-        },
-      ],
-      completed: false,
-    },
-  ]);
+  const [todos, setTodos] = useState<Todo[]>();
+
+  useEffect(() => {
+    if (todos?.length! > 0) return;
+    const todosFromLocalStorage = localStorage.getItem("todos");
+    if (todosFromLocalStorage) {
+      const todosFromLocalStorageParsed = JSON.parse(todosFromLocalStorage);
+      setTodos([...todosFromLocalStorageParsed]);
+      console.log(todosFromLocalStorageParsed);
+    }
+  }, [todos]);
 
   const toggleModal = () => {
     setShowModal((prev) => !prev);
@@ -64,6 +43,7 @@ export default function Home() {
     const newTodos = [...todos];
     newTodos[index].completed = !newTodos[index].completed;
     setTodos(newTodos);
+    localStorage.setItem("todos", JSON.stringify(newTodos));
   };
 
   const toggleCompletedSubTask = (
@@ -75,22 +55,24 @@ export default function Home() {
     newTodos[todoIndex].subtasks![subtaskIndex!].completed =
       !newTodos[todoIndex].subtasks![subtaskIndex!].completed;
     setTodos(newTodos);
-    console.log(todos);
+    localStorage.setItem("todos", JSON.stringify(newTodos));
   };
 
   const updateTodo = (updatedTodo: Todo) => {
-    const updatedListOfTodos = todos.map((todo) => {
+    const updatedListOfTodos = todos?.map((todo) => {
       if (todo.id === updatedTodo.id) {
         todo = updatedTodo;
       }
       return todo;
     });
     setTodos(updatedListOfTodos);
+    localStorage.setItem("todos", JSON.stringify(updatedListOfTodos));
   };
 
   const deleteTodo = (id: string) => {
-    const newTodos = todos.filter((todo) => todo.id !== id);
+    const newTodos = todos?.filter((todo) => todo.id !== id);
     setTodos(newTodos);
+    localStorage.setItem("todos", JSON.stringify(newTodos));
   };
 
   return (

@@ -5,7 +5,7 @@ import styles from "./add-todo-modal.module.scss";
 
 type Props = {
   close: () => void;
-  setTodos?: Dispatch<SetStateAction<Todo[]>>;
+  setTodos?: Dispatch<SetStateAction<Todo[] | undefined>>;
   updateTodo?: (updatedTodo: Todo) => void;
   currentTodo?: Todo;
   type: "ADD" | "EDIT";
@@ -55,7 +55,10 @@ const AddTodoModal: React.FC<Props> = ({
       subtasks,
       completed: false,
     };
-    setTodos((prev) => [newTodo, ...prev]);
+    setTodos((prev) => {
+      localStorage.setItem("todos", JSON.stringify([newTodo, ...prev!]));
+      return [newTodo, ...prev!];
+    });
   };
 
   const editTodo = () => {
