@@ -42,6 +42,7 @@ const AddTodoModal: React.FC<Props> = ({ close, setTodos }) => {
       notes,
       priority,
       subtasks,
+      completed: false
     };
     setTodos((prev) => [newTodo, ...prev]);
   };

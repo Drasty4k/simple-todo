@@ -12,12 +12,13 @@ export type Todo = {
   notes: string;
   priority: Priority;
   subtasks?: Subtask[];
+  completed: boolean;
 };
 
 export type Subtask = {
   id: string;
   text: string;
-}
+};
 
 export default function Home() {
   const [showModal, setShowModal] = useState(false);
@@ -34,23 +35,31 @@ export default function Home() {
           text: "resolve that bad basdddddddddddddasdddddddddddddddddddddddddddddddddddddddddddddddddug",
         },
         {
-          id: "asd3",
-          text: "resolve that bad basdddddddddddddasdddddddddddddddddddddddddddddddddddddddddddddddddug",
+          id: "asd5",
+          text: "resolve that bad bddddug",
         },
         {
-          id: "asd3",
-          text: "resolve that bad basdddddddddddddasdddddddddddddddddddddddddddddddddddddddddddddddddug",
+          id: "asd6",
+          text: "resolve that bad basdddddddddddddasdddddddddddddddddddddddddddddddddug",
         },
         {
-          id: "asd3",
-          text: "resolve that bad basdddddddddddddasdddddddddddddddddddddddddddddddddddddddddddddddddug",
+          id: "asd8",
+          text: "resolve that bad badddddddddddddddddddddddddddug",
         },
       ],
+      completed: false,
     },
   ]);
 
   const toggleModal = () => {
     setShowModal((prev) => !prev);
+  };
+
+  const toggleCompletedTodo = (index: number, todos: Todo[]) => {
+    const newTodos = [...todos];
+    newTodos[index].completed = !newTodos[index].completed;
+    setTodos(newTodos);
+    console.log(todos);
   };
 
   return (
@@ -60,7 +69,11 @@ export default function Home() {
       </button>
       <ul className={styles.todosContainer}>
         {todos?.map(
-          ({ id, title, subtitle, notes, priority, subtasks }, index) => (
+          (
+            { id, title, subtitle, notes, priority, subtasks, completed },
+            index,
+            todos
+          ) => (
             <TodoCard
               key={id}
               id={id}
@@ -69,6 +82,8 @@ export default function Home() {
               notes={notes}
               priority={priority}
               subtasks={subtasks}
+              completed={completed}
+              toggleCompletedTodo={() => toggleCompletedTodo(index, todos)}
             />
           )
         )}
