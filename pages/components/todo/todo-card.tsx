@@ -1,4 +1,4 @@
-import { Subtask } from "../../index";
+import { Priority, Subtask } from "../../index";
 import styles from "./todo-card.module.scss";
 
 type Props = {
@@ -6,7 +6,7 @@ type Props = {
   title: string;
   subtitle: string;
   notes: string;
-  priority: "LOW" | "MEDIUM" | "HIGH";
+  priority: Priority;
   subtasks?: Subtask[];
 };
 

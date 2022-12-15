@@ -3,12 +3,14 @@ import AddTodoModal from "./components/add-todo-modal/add-todo-modal";
 import TodoCard from "./components/todo/todo-card";
 import styles from "./index.module.scss";
 
+export type Priority = "LOW" | "MEDIUM" | "HIGH" | null;
+
 export type Todo = {
   id: string;
   title: string;
   subtitle: string;
   notes: string;
-  priority: "LOW" | "MEDIUM" | "HIGH";
+  priority: Priority;
   subtasks?: Subtask[];
 };
 
@@ -20,106 +22,6 @@ export type Subtask = {
 export default function Home() {
   const [showModal, setShowModal] = useState(false);
   const [todos, setTodos] = useState<Todo[]>([
-    {
-      id: "asd1",
-      title: "Work",
-      subtitle: "do this task",
-      notes: "resolve that bug",
-      priority: "MEDIUM",
-      subtasks: [
-        {
-          id: "asd3",
-          text: "resolve that bad basdddddddddddddasdddddddddddddddddddddddddddddddddddddddddddddddddug",
-        },
-        {
-          id: "asd3",
-          text: "resolve that bad basdddddddddddddasdddddddddddddddddddddddddddddddddddddddddddddddddug",
-        },
-        {
-          id: "asd3",
-          text: "resolve that bad basdddddddddddddasdddddddddddddddddddddddddddddddddddddddddddddddddug",
-        },
-        {
-          id: "asd3",
-          text: "resolve that bad basdddddddddddddasdddddddddddddddddddddddddddddddddddddddddddddddddug",
-        },
-      ],
-    },
-    {
-      id: "asd1",
-      title: "Work",
-      subtitle: "do this task",
-      notes: "resolve that bug",
-      priority: "MEDIUM",
-      subtasks: [
-        {
-          id: "asd3",
-          text: "resolve that bad basdddddddddddddasdddddddddddddddddddddddddddddddddddddddddddddddddug",
-        },
-        {
-          id: "asd3",
-          text: "resolve that bad basdddddddddddddasdddddddddddddddddddddddddddddddddddddddddddddddddug",
-        },
-        {
-          id: "asd3",
-          text: "resolve that bad basdddddddddddddasdddddddddddddddddddddddddddddddddddddddddddddddddug",
-        },
-        {
-          id: "asd3",
-          text: "resolve that bad basdddddddddddddasdddddddddddddddddddddddddddddddddddddddddddddddddug",
-        },
-      ],
-    },
-    {
-      id: "asd1",
-      title: "Work",
-      subtitle: "do this task",
-      notes: "resolve that bug",
-      priority: "MEDIUM",
-      subtasks: [
-        {
-          id: "asd3",
-          text: "resolve that bad basdddddddddddddasdddddddddddddddddddddddddddddddddddddddddddddddddug",
-        },
-        {
-          id: "asd3",
-          text: "resolve that bad basdddddddddddddasdddddddddddddddddddddddddddddddddddddddddddddddddug",
-        },
-        {
-          id: "asd3",
-          text: "resolve that bad basdddddddddddddasdddddddddddddddddddddddddddddddddddddddddddddddddug",
-        },
-        {
-          id: "asd3",
-          text: "resolve that bad basdddddddddddddasdddddddddddddddddddddddddddddddddddddddddddddddddug",
-        },
-      ],
-    },
-    {
-      id: "asd1",
-      title: "Work",
-      subtitle: "do this task",
-      notes: "resolve that bug",
-      priority: "MEDIUM",
-      subtasks: [
-        {
-          id: "asd3",
-          text: "resolve that bad basdddddddddddddasdddddddddddddddddddddddddddddddddddddddddddddddddug",
-        },
-        {
-          id: "asd3",
-          text: "resolve that bad basdddddddddddddasdddddddddddddddddddddddddddddddddddddddddddddddddug",
-        },
-        {
-          id: "asd3",
-          text: "resolve that bad basdddddddddddddasdddddddddddddddddddddddddddddddddddddddddddddddddug",
-        },
-        {
-          id: "asd3",
-          text: "resolve that bad basdddddddddddddasdddddddddddddddddddddddddddddddddddddddddddddddddug",
-        },
-      ],
-    },
     {
       id: "asd1",
       title: "Work",
@@ -171,7 +73,7 @@ export default function Home() {
           )
         )}
       </ul>
-      {showModal && <AddTodoModal close={toggleModal} />}
+      {showModal && <AddTodoModal close={toggleModal} setTodos={setTodos} />}
     </div>
   );
 }
