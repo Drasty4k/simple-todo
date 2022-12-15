@@ -81,7 +81,7 @@ export default function Home() {
         +
       </button>
       <ul className={styles.todosContainer}>
-        {todos?.map(
+        {todos?.length !== 0 ? todos?.map(
           (
             { id, title, subtitle, notes, priority, subtasks, completed },
             index,
@@ -104,7 +104,7 @@ export default function Home() {
               deleteTodo={deleteTodo}
             />
           )
-        )}
+        ) : <h1>Add A Todo</h1>}
       </ul>
       {showModal && (
         <AddTodoModal type="ADD" close={toggleModal} setTodos={setTodos} />
