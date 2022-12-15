@@ -76,6 +76,7 @@ const AddTodoModal: React.FC<Props> = ({
     const newSubtask = {
       id: nanoid(10),
       text: subtaskText,
+      completed: false
     };
     setSubtasks((prev) => [newSubtask, ...prev]);
     setSubtaskText("");

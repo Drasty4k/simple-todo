@@ -18,6 +18,7 @@ export type Todo = {
 export type Subtask = {
   id: string;
   text: string;
+  completed: boolean;
 };
 
 export default function Home() {
@@ -32,19 +33,23 @@ export default function Home() {
       subtasks: [
         {
           id: "asd3",
-          text: "resolve that bad basdddddddddddddasdddddddddddddddddddddddddddddddddddddddddddddddddug",
+          text: "resolve that bad basdddddddug",
+          completed: false,
         },
         {
           id: "asd5",
           text: "resolve that bad bddddug",
+          completed: false,
         },
         {
           id: "asd6",
-          text: "resolve that bad basdddddddddddddasdddddddddddddddddddddddddddddddddug",
+          text: "resolve that bad basddddddddddddug",
+          completed: false,
         },
         {
           id: "asd8",
           text: "resolve that bad badddddddddddddddddddddddddddug",
+          completed: false,
         },
       ],
       completed: false,
@@ -59,6 +64,18 @@ export default function Home() {
     const newTodos = [...todos];
     newTodos[index].completed = !newTodos[index].completed;
     setTodos(newTodos);
+  };
+
+  const toggleCompletedSubTask = (
+    todoIndex: number,
+    todos: Todo[],
+    subtaskIndex: number
+  ) => {
+    const newTodos = [...todos];
+    newTodos[todoIndex].subtasks![subtaskIndex!].completed =
+      !newTodos[todoIndex].subtasks![subtaskIndex!].completed;
+    setTodos(newTodos);
+    console.log(todos);
   };
 
   const updateTodo = (updatedTodo: Todo) => {
@@ -92,8 +109,11 @@ export default function Home() {
               priority={priority}
               subtasks={subtasks}
               completed={completed}
-              toggleCompletedTodo={() => toggleCompletedTodo(index, todos)}
-              updateTodo={updateTodo}
+              todoIndex={index}
+              allTodos={todos}
+              toggleCompletedTodo={toggleCompletedTodo}
+              updateTodo={() => updateTodo}
+              toggleCompletedSubTask={toggleCompletedSubTask}
             />
           )
         )}
