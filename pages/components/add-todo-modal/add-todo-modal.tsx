@@ -7,7 +7,7 @@ import {
   useRef,
   useState,
 } from "react";
-import { Priority, Todo } from "../../index";
+import { Priority, Subtask, Todo } from "../../index";
 import styles from "./add-todo-modal.module.scss";
 
 type Props = {
@@ -20,6 +20,8 @@ const AddTodoModal: React.FC<Props> = ({ close, setTodos }) => {
   const [title, setTitle] = useState<string>("");
   const [subtitle, setSubtitle] = useState<string>("");
   const [notes, setNotes] = useState<string>("");
+  const [subtasks, setSubtasks] = useState<Subtask[]>([]);
+  const [subtaskText, setSubtaskText] = useState<string>("");
 
   const ignoreClick = (event: React.MouseEvent<Element, MouseEvent>) => {
     event.stopPropagation();
@@ -39,8 +41,18 @@ const AddTodoModal: React.FC<Props> = ({ close, setTodos }) => {
       subtitle,
       notes,
       priority,
+      subtasks,
     };
     setTodos((prev) => [newTodo, ...prev]);
+  };
+
+  const addSubtask = () => {
+    const newSubtask = {
+      id: nanoid(10),
+      text: subtaskText,
+    };
+    setSubtasks((prev) => [newSubtask, ...prev]);
+    setSubtaskText("");
   };
 
   const allInputsEmpty = () => {
@@ -101,6 +113,28 @@ const AddTodoModal: React.FC<Props> = ({ close, setTodos }) => {
               onChange={(e) => setNotes(e.target.value)}
             />
           </div>
+          <hr />
+          <div className={styles.addSubtask}>
+            <div className={styles.subtask}>
+              <label htmlFor="subtask">Subtask</label>
+              <input
+                id="subtask"
+                type="text"
+                value={subtaskText}
+                onChange={(e) => setSubtaskText(e.target.value)}
+              />
+            </div>
+            <button type="button" onClick={addSubtask}>
+              Add
+            </button>
+          </div>
+          <ul className={styles.subtasksContainer}>
+            {subtasks.map((subtask) => (
+              <li key={subtask.id}>
+                <p>{subtask.text}</p>
+              </li>
+            ))}
+          </ul>
           <button
             type="submit"
             className={styles.addTodoBtn}
