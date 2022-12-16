@@ -57,7 +57,7 @@ const TodoCard: React.FC<Props> = ({
         <p className={styles.notes}>{notes}</p>
         <div className={styles.priority}>
           <p>Priority:</p>
-          <p>{priority}</p>
+          <p><b>{priority}</b></p>
         </div>
         <hr />
         <h4 className={styles.subtasksTitle}>Subtasks:</h4>

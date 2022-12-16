@@ -3,6 +3,12 @@ import AddTodoModal from "./components/add-todo-modal/add-todo-modal";
 import TodoCard from "./components/todo/todo-card";
 import styles from "./index.module.scss";
 
+enum PriorityEnum {
+  LOW,
+  MEDIUM,
+  HIGH,
+}
+
 export type Priority = "LOW" | "MEDIUM" | "HIGH" | null;
 
 export type Todo = {
@@ -75,13 +81,19 @@ export default function Home() {
     localStorage.setItem("todos", JSON.stringify(newTodos));
   };
 
+  const orderedTodos = todos?.sort(
+    (a, b) =>
+      Number(a.completed) - Number(b.completed) ||
+      PriorityEnum[b.priority!] - PriorityEnum[a.priority!]
+  );
+
   return (
     <div className={styles.container}>
       <button onClick={toggleModal} className={styles.addBtn}>
         +
       </button>
       <ul className={styles.todosContainer}>
-        {todos?.length !== 0 ? todos?.map(
+        {orderedTodos?.length !== 0 ? orderedTodos?.map(
           (
             { id, title, subtitle, notes, priority, subtasks, completed },
             index,
